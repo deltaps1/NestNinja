@@ -29,10 +29,9 @@ class Navigator:
     def _looper(
             self, 
             func: Callable, 
-            post_call: Callable | Literal[False] = False,
-            return_as_dict: bool = False
-        ):
-        data = [x for x in self.data]
+            post_call: Callable | Literal[False] = False
+        ) -> Navigator:
+        data: list = [x for x in self.data]
         result = []
         for datum in data:
             try: result.append(func(datum))
@@ -41,7 +40,6 @@ class Navigator:
                 datum["_error"].append(_error_handler(error, func))
                 result.append(datum)
         if post_call: result = post_call(result)
-        if return_as_dict: return result
         return Navigator(result)
 
     def create_index(self):
