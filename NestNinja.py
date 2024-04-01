@@ -1,4 +1,4 @@
-from typing import Callable, Literal
+from typing import Callable, DefaultDict, Literal
 from test_utils import get_test_data
 
 def _error_handler(exception: Exception, func: Callable):
@@ -49,10 +49,32 @@ class Navigator:
             return datum
         self._looper(func)
 
-class TypeAnalyser:
-    def __init__(self, data: list):
-        self.data = data
+
+class AnalysisHandler:
+    def __init__(self):
+        self.count = 0
+        self.types = set()
+
+    def add(self, type_found: type):
+        self.types.add(type_found)
+
+    def register(self): 
+        self.count += 1
+
+    def __repr__(self):
+        return f"<AnalysisHandler types = {str(self.types)}, count = {self.count}>"
+
+def find_types(data: list[dict]):
+    results = DefaultDict(AnalysisHandler)
+    for dict_obj in data:
+        for k, v in dict_obj.items():
+            type_found = type(v)
+            results[k].register()
+            results[k].add(type_found)
+    lenght = len(data)
+    return dict(results), lenght
 
 if __name__ == '__main__':
     data = get_test_data()
     nav = Navigator(data)
+    res, lenght = find_types(nav.data)
