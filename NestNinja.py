@@ -54,8 +54,14 @@ class Navigator:
 
     def demote(self, demoted_key: str, demotion_location: str, delete: bool = True): 
         def func(datum: dict): 
-            datum[demotion_location][demoted_key] = datum[demoted_key]
+            demotion_data = datum[demotion_location]
+            if not isinstance(demotion_data, list): demotion_data = [demotion_data]
+            for demotion_sub in demotion_data:
+                demotion_sub[demoted_key] = datum[demoted_key]
             if delete: del(datum[demoted_key])
+            return datum
+        return self._looper(func) 
+
 
     def rename(self, old_name: str, new_name: str) -> Navigator | list:
         def func(datum: dict):
