@@ -111,7 +111,11 @@ class Navigator:
         if isinstance(idx, int):
             return self.data[idx]
         elif isinstance(idx, str):
-            selection = [x for x in self.data if idx in x.keys()]
+            return [x[idx] for x in self.data if idx in x.keys()]
+        elif isinstance(idx, tuple):
+            print(idx)
+            return [{k:v for k,v in x.items() if k in idx} for x in self.data]
+
 
 class AnalysisHandler:
     def __init__(self):
