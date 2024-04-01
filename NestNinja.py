@@ -46,49 +46,51 @@ class Navigator:
         ...
 
     def promote(self, key: str | list, prefix: str = "") -> Navigator:
-        def func(datum: dict):
+        def promote_inner(datum: dict):
             res = {k:v for k,v in datum.items() if k != key}
             for k, v in datum[key].items(): res[prefix + k] = v
             return res
-        return self._looper(func) 
+        return self._looper(promote_inner) 
 
     def demote(self, demoted_key: str, demotion_location: str, delete: bool = True): 
-        def func(datum: dict): 
+        def demote_inner(datum: dict): 
             demotion_data = datum[demotion_location]
             if not isinstance(demotion_data, list): demotion_data = [demotion_data]
             for demotion_sub in demotion_data:
                 demotion_sub[demoted_key] = datum[demoted_key]
             if delete: del(datum[demoted_key])
             return datum
-        return self._looper(func) 
+
+        # post_call = lambda result: [x for y in result for x in y]
+        return self._looper(demote_inner) # post_call=post_call) 
 
 
     def rename(self, old_name: str, new_name: str) -> Navigator | list:
-        def func(datum: dict):
+        def rename_inner(datum: dict):
             datum[new_name] = datum[old_name]
             del(datum[old_name])
             return datum
-        return self._looper(func)
+        return self._looper(rename_inner)
 
     def split(self, key: str, func: Callable) -> Navigator | list:
-        def _func(datum: dict):
+        def split_inner(datum: dict):
             eval_res = func(datum[key]) # Check if the function is True
             new_key = key + ("_true" if eval_res else "_false")
             datum[new_key] = datum[key]
             return datum 
-        return self._looper(_func)
+        return self._looper(split_inner)
 
     def nav(self, key: str) -> Navigator:
-        def func(datum: dict): 
+        def nav_inner(datum: dict): 
             subdata = datum[key] 
             if not isinstance(subdata, list): subdata = [subdata]
             return subdata
         post_call = lambda result: [x for y in result for x in y]
-        return self._looper(func, post_call=post_call)
+        return self._looper(nav_inner, post_call=post_call)
 
     def delete(self, key: str) -> Navigator:
-        def func(datum: dict): del(datum[key])
-        return self._looper(func)
+        def delete_inner(datum: dict): del(datum[key])
+        return self._looper(delete_inner)
 
     def detach(self) -> Navigator | list:
         ...
