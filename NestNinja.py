@@ -72,8 +72,14 @@ class Navigator:
             return datum 
         return self._looper(_func)
 
-    def nav(self, key: str):
-        def func(datum: dict): return datum[key]
+    def nav(self, key: str) -> Navigator:
+        def func(datum: dict): 
+            subdata = datum[key] 
+            if not isinstance(subdata, list): subdata = [subdata]
+            return subdata
+        post_call = lambda result: [x for y in result for x in y]
+        return self._looper(func, post_call=post_call)
+
         return self._looper(func)
 
     def detach(self) -> Navigator | list:
