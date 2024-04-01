@@ -49,6 +49,23 @@ class Navigator:
             return datum
         self._looper(func)
 
+    def split(self, key: str, func: Callable):
+        def _func(datum: dict):
+            eval_res = func(datum[key]) # Check if the function is True
+            new_key = key + ("_true" if eval_res else "_false")
+            datum[new_key] = datum[key]
+            return datum 
+        self._looper(_func)
+
+    def nav(self, key: str):
+        def func(datum, dict):
+            ...
+
+    def detach(self):
+        ...
+
+    def explode(self):
+        ...
 
 class AnalysisHandler:
     def __init__(self):
