@@ -166,7 +166,7 @@ def find_types(data: list[dict]):
 if __name__ == '__main__':
     data = get_test_data()
     nav: Navigator = Navigator(data)
-    res, lenght = find_types(nav.data)
+    res = find_types(nav.data)
     pprint(res)
     new = (
         nav
@@ -174,8 +174,9 @@ if __name__ == '__main__':
         .nav("hits")
         .nav("_source")
         .nav("Vrvirksomhed")
+        .promote("virksomhedMetadata", "meta_")
     )
-    res, _ = find_types(new.data)
-    prom = new.promote("virksomhedMetadata", "meta_")
-    res, _ = find_types(prom.data)
+    res = find_types(new.data)
     pprint(res)
+    demoted = new.demote("cvrNummer", "hovedbranche", delete=False)
+    hb_nav = demoted.nav("hovedbranche")
