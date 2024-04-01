@@ -144,7 +144,8 @@ class AnalysisHandler:
         self.types_all = set()
 
     def add(self, type_found: type):
-        self.types.add(type_found)
+        self.types[type_found] += 1
+        self.types_all.add(type_found)
 
     def register(self): 
         self.count += 1
