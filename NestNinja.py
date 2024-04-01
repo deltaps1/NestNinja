@@ -19,6 +19,7 @@ class Navigator:
         ):
         self.data: list = self._base_clean_data(data)
         self.index_name: str = "_idx" if not index else index
+        if not index: self.create_index()
 
     @staticmethod
     def _base_clean_data(data: list | dict):
@@ -46,7 +47,8 @@ class Navigator:
         return Navigator(result)
 
     def create_index(self):
-        ...
+        for i, datum in enumerate(self.data):
+            datum[self.index_name] = i
 
     def promote(self, key: str | list, prefix: str = "") -> Navigator:
         def promote_inner(datum: dict):
