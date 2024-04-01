@@ -171,18 +171,18 @@ def find_types(data: list[dict]):
 
 if __name__ == '__main__':
     data = get_test_data()
-    nav: Navigator = Navigator(data)
-    res = find_types(nav.data)
+    nav_base: Navigator = Navigator(data)
+    res = find_types(nav_base.data)
     pprint(res)
-    new = (
-        nav
+    nav = (
+        nav_base
         .nav("hits")
         .nav("hits")
         .nav("_source")
         .nav("Vrvirksomhed")
-        .promote("virksomhedMetadata", "meta_")
     )
-    res = find_types(new.data)
+    prom = nav.promote("virksomhedMetadata", "meta_")
+    res = find_types(prom.data)
     pprint(res)
-    demoted = new.demote("cvrNummer", "hovedbranche", delete=False)
-    hb_nav = demoted.nav("hovedbranche")
+    demoted = nav.demote("cvrNummer", "hovedbranche", delete=False)
+    # hb_nav = demoted.nav("hovedbranche")
