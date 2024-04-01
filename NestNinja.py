@@ -24,30 +24,38 @@ class Navigator:
     def set_index(self, idx_name: str):
         ...
 
-    def _looper(self, func: Callable):
+    def _looper(
+            self, 
+            func: Callable, 
+            post_call: Callable | Literal[False] = False,
+            return_as_dict: bool = False
+        ):
+        data = [x for x in self.data]
         result = []
-        for datum in self.data:
+        for datum in data:
             try: result.append(func(datum))
             except Exception as error: 
                 datum.setdefault("_error", [])
                 datum["_error"].append(_error_handler(error, func))
                 print(error) # debug print
                 result.append(datum)
-        self.data = result
+        if post_call: result = post_call(result)
+        if return_as_dict: return result
+        return Navigator(result)
 
     def promote(self, key: str | list, prefix: str = ""):
         def func(datum: dict):
             res = {k:v for k,v in datum.items() if k != key}
             for k, v in datum[key].items(): res[prefix + k] = v
             return res
-        self._looper(func) 
+        return self._looper(func) 
 
     def rename(self, old_name: str, new_name: str):
         def func(datum: dict):
             datum[new_name] = datum[old_name]
             del(datum[old_name])
             return datum
-        self._looper(func)
+        return self._looper(func)
 
     def split(self, key: str, func: Callable):
         def _func(datum: dict):
@@ -55,11 +63,11 @@ class Navigator:
             new_key = key + ("_true" if eval_res else "_false")
             datum[new_key] = datum[key]
             return datum 
-        self._looper(_func)
+        return self._looper(_func)
 
     def nav(self, key: str):
-        def func(datum, dict):
-            ...
+        def func(datum: dict): return datum[key]
+        return self._looper(func)
 
     def detach(self):
         ...
