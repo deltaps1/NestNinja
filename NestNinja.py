@@ -90,6 +90,12 @@ class Navigator:
     def explode(self) -> Navigator | list:
         ...
 
+    def __getitem__(self, idx):
+        if isinstance(idx, int):
+            return self.data[idx]
+        elif isinstance(idx, str):
+            selection = [x for x in self.data if idx in x.keys()]
+
 class AnalysisHandler:
     def __init__(self):
         self.count = 0
