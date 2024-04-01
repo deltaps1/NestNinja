@@ -23,7 +23,7 @@ class Navigator:
     def _base_clean_data(data: list | dict):
         return [data] if isinstance(data, dict) else data
 
-    def set_index(self, idx_name: str):
+    def set_index(self, idx_name: str, keep_old: bool = False):
         ...
 
     def _looper(
@@ -39,13 +39,15 @@ class Navigator:
             except Exception as error: 
                 datum.setdefault("_error", [])
                 datum["_error"].append(_error_handler(error, func))
-                print(error) # debug print
                 result.append(datum)
         if post_call: result = post_call(result)
         if return_as_dict: return result
         return Navigator(result)
 
-    def promote(self, key: str | list, prefix: str = ""):
+    def create_index(self):
+        ...
+
+    def promote(self, key: str | list, prefix: str = "") -> Navigator:
         def func(datum: dict):
             res = {k:v for k,v in datum.items() if k != key}
             for k, v in datum[key].items(): res[prefix + k] = v
@@ -59,7 +61,7 @@ class Navigator:
             return datum
         return self._looper(func)
 
-    def split(self, key: str, func: Callable):
+    def split(self, key: str, func: Callable) -> Navigator | list:
         def _func(datum: dict):
             eval_res = func(datum[key]) # Check if the function is True
             new_key = key + ("_true" if eval_res else "_false")
@@ -71,10 +73,10 @@ class Navigator:
         def func(datum: dict): return datum[key]
         return self._looper(func)
 
-    def detach(self):
+    def detach(self) -> Navigator | list:
         ...
 
-    def explode(self):
+    def explode(self) -> Navigator | list:
         ...
 
 class AnalysisHandler:
@@ -103,5 +105,17 @@ def find_types(data: list[dict]):
 
 if __name__ == '__main__':
     data = get_test_data()
-    nav = Navigator(data)
+    nav: Navigator = Navigator(data)
     res, lenght = find_types(nav.data)
+    pprint(res)
+    new = (
+            nav
+            .nav("hits")
+            .nav("hits")
+            .nav("_source")
+            .nav("Vrvirksomhed")
+    )
+    res, _ = find_types(new.data)
+    prom = new.promote("virksomhedMetadata", "meta_")
+    res, _ = find_types(prom.data)
+    pprint(res)
