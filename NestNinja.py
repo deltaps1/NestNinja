@@ -116,6 +116,9 @@ class Navigator:
             print(idx)
             return [{k:v for k,v in x.items() if k in idx} for x in self.data]
 
+    def analyse(self): # Temporary solution
+        return find_types(self.data) 
+
 
 class AnalysisHandler:
     def __init__(self):
