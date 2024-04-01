@@ -80,6 +80,8 @@ class Navigator:
         post_call = lambda result: [x for y in result for x in y]
         return self._looper(func, post_call=post_call)
 
+    def delete(self, key: str) -> Navigator:
+        def func(datum: dict): del(datum[key])
         return self._looper(func)
 
     def detach(self) -> Navigator | list:
