@@ -56,9 +56,17 @@ class Navigator:
     def demote(self, demoted_key: str, demotion_location: str, delete: bool = True): 
         def demote_inner(datum: dict): 
             demotion_data = datum[demotion_location]
-            if not isinstance(demotion_data, list): demotion_data = [demotion_data]
+            if not isinstance(demotion_data, (list, dict)): 
+                return []
+            if isinstance(demotion_data, dict): demotion_data = [demotion_data]
+            demotion_data = [x for x in demotion_data]
+
+            res = []
             for demotion_sub in demotion_data:
                 demotion_sub[demoted_key] = datum[demoted_key]
+                res.append(demotion_sub)
+                if isinstance(demotion_sub, str): print(demotion_sub)
+            datum[demotion_location] = res
             if delete: del(datum[demoted_key])
             return datum
 
