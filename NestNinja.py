@@ -52,7 +52,12 @@ class Navigator:
             return res
         return self._looper(func) 
 
-    def rename(self, old_name: str, new_name: str):
+    def demote(self, demoted_key: str, demotion_location: str, delete: bool = True): 
+        def func(datum: dict): 
+            datum[demotion_location][demoted_key] = datum[demoted_key]
+            if delete: del(datum[demoted_key])
+
+    def rename(self, old_name: str, new_name: str) -> Navigator | list:
         def func(datum: dict):
             datum[new_name] = datum[old_name]
             del(datum[old_name])
