@@ -126,11 +126,11 @@ if __name__ == '__main__':
     res, lenght = find_types(nav.data)
     pprint(res)
     new = (
-            nav
-            .nav("hits")
-            .nav("hits")
-            .nav("_source")
-            .nav("Vrvirksomhed")
+        nav
+        .nav("hits")
+        .nav("hits")
+        .nav("_source")
+        .nav("Vrvirksomhed")
     )
     res, _ = find_types(new.data)
     prom = new.promote("virksomhedMetadata", "meta_")
