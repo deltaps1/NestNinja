@@ -161,7 +161,7 @@ def find_types(data: list[dict]):
             results[k].register()
             results[k].add(type_found)
     lenght = len(data)
-    return dict(results), lenght
+    return AnalysesCollection(dict(results), lenght)
 
 if __name__ == '__main__':
     data = get_test_data()
