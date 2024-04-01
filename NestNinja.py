@@ -30,16 +30,18 @@ class Navigator:
     def _looper(
             self, 
             func: Callable, 
-            post_call: Callable | Literal[False] = False
+            post_call: Callable | Literal[False] = False,
+            include_errors: bool = True
         ) -> Navigator:
         data: list = [x for x in self.data]
         result = []
         for datum in data:
             try: result.append(func(datum))
             except Exception as error: 
-                datum.setdefault("_error", [])
-                datum["_error"].append(_error_handler(error, func))
-                result.append(datum)
+                if include_errors:
+                    datum.setdefault("_error", [])
+                    datum["_error"].append(_error_handler(error, func))
+                    result.append(datum)
         if post_call: result = post_call(result)
         return Navigator(result)
 
@@ -95,7 +97,7 @@ class Navigator:
             if not isinstance(subdata, list): subdata = [subdata]
             return subdata
         post_call = lambda result: [x for y in result for x in y]
-        return self._looper(nav_inner, post_call=post_call)
+        return self._looper(nav_inner, post_call=post_call, include_errors=False)
 
     def delete(self, key: str) -> Navigator:
         def delete_inner(datum: dict): del(datum[key])
