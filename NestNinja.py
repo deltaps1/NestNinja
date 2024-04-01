@@ -119,6 +119,23 @@ class Navigator:
     def analyse(self): # Temporary solution
         return find_types(self.data) 
 
+class AnalysesCollection:
+    def __init__(self, data: dict[str, AnalysisHandler], lenght: int) -> None:
+        self.data = data
+        self.lenght = lenght
+        self.lk = self._find_longest_key()
+
+    def _find_longest_key(self):
+        return max([len(x) for x in self.data.keys()])
+
+    def __repr__(self):
+        result_string = ""
+        for k, v in self.data.items():
+            spaces = " "*(self.lk-len(k))
+            result_string += f"{k} {spaces} l:{v.count}, t:{v.types_all}\n"
+
+        return result_string
+    
 
 class AnalysisHandler:
     def __init__(self):
