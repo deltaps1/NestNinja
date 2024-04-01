@@ -26,7 +26,9 @@ class Navigator:
         return [data] if isinstance(data, dict) else data
 
     def set_index(self, idx_name: str, keep_old: bool = False):
-        ...
+        if not keep_old:
+            self.delete(key=self.index_name)
+        self.index_name = idx_name
 
     def _looper(
             self, 
