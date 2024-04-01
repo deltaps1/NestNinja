@@ -1,4 +1,5 @@
 from __future__ import annotations
+from collections import defaultdict
 from typing import Any, Callable, DefaultDict, Literal
 from test_utils import get_test_data
 from pprint import pprint
@@ -107,7 +108,8 @@ class Navigator:
 class AnalysisHandler:
     def __init__(self):
         self.count = 0
-        self.types = set()
+        self.types = defaultdict(int)
+        self.types_all = set()
 
     def add(self, type_found: type):
         self.types.add(type_found)
