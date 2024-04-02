@@ -9,11 +9,11 @@ class Navigator:
     def __init__(
             self, 
             data: list | dict,
-            index: str | Literal[False] = False
+            _debug_msg: str = ''
         ):
-        self.data: list = _put_dicts_in_lists(data)
-        self.index_name: str = "_idx" if not index else index
-        if not index: self.create_index()
+        if _debug_msg:
+            print(f"Navigator initialised. Message: {_debug_msg}")
+            print(f"Index name: {index_name}")
 
     def set_index(self, idx_name: str, keep_old: bool = False):
         if not keep_old:
