@@ -1,6 +1,6 @@
 from __future__ import annotations
 from collections import defaultdict
-from typing import Any, Callable, DefaultDict, Literal
+from typing import Callable, DefaultDict, Literal
 from test_utils import get_test_data
 from pprint import pprint
 
