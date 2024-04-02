@@ -9,22 +9,27 @@ class Navigator:
     def __init__(
             self, 
             data: list | dict,
+            index_name: str = '',
             _debug_msg: str = ''
         ):
         if _debug_msg:
             print(f"Navigator initialised. Message: {_debug_msg}")
             print(f"Index name: {index_name}")
 
-    def set_index(self, idx_name: str, keep_old: bool = False):
-        if not keep_old:
-            self.delete(key=self.index_name)
-        self.index_name = idx_name
+        self.data: list = _put_dicts_in_lists(data)
+        self.index_name = index_name
+        if index_name: 
+            self.index_name = index_name
+        else: 
+            self.index_name = "_idx"
+            self.create_index()
 
     def _looper(
             self, 
             func: Callable, 
             post_call: Callable | Literal[False] = False,
-            include_errors: bool = True
+            include_errors: bool = True,
+            navigator_kwargs: dict = {}
         ) -> Navigator:
         data: list = [x for x in self.data]
         result = []
@@ -36,7 +41,14 @@ class Navigator:
                     datum["_error"].append(_error_handler(error, func))
                     result.append(datum)
         if post_call: result = post_call(result)
-        return Navigator(result)
+        return Navigator(result, **navigator_kwargs)
+
+    def set_index(self, idx_name: str, keep_old: bool = False):
+        if not keep_old:
+            res = self.delete(key=self.index_name, _index_name=idx_name)
+            res.index_name = idx_name
+        else: res = Navigator(self.data, index_name=idx_name)
+        return res
 
     def create_index(self):
         for i, datum in enumerate(self.data):
@@ -87,9 +99,16 @@ class Navigator:
         post_call = lambda result: [x for y in result for x in y]
         return self._looper(nav_inner, post_call=post_call, include_errors=False)
 
-    def delete(self, key: str) -> Navigator:
-        def delete_inner(datum: dict): del(datum[key])
-        return self._looper(delete_inner)
+    def delete(self, key: str, _index_name: str = '') -> Navigator:
+        def delete_inner(datum: dict): 
+            del(datum[key])
+            return datum
+        if not _index_name: navigator_kwargs: dict = {}
+        else: navigator_kwargs: dict = {"index_name": _index_name}        
+        return self._looper(
+            delete_inner, 
+            navigator_kwargs=navigator_kwargs
+        )
 
     def detach(self) -> Navigator | list:
         ...
