@@ -61,7 +61,7 @@ class Navigator:
             return res
         return self._looper(promote_inner) 
 
-    def demote(self, demoted_key: str, demotion_location: str, delete: bool = True): 
+    def demote(self, demoted_key: str, demotion_location: str, delete: bool = True) -> Navigator: 
         def demote_inner(datum: dict): 
             demotion_data = _put_dicts_in_lists(datum[demotion_location])
             res = []
@@ -110,8 +110,14 @@ class Navigator:
             navigator_kwargs=navigator_kwargs
         )
 
-    def detach(self) -> Navigator | list:
-        ...
+    def detach(self, key: str, index_name: str = '') -> Navigator | list:
+        temp: Navigator = self.demote(
+            demoted_key=self.index_name, 
+            demotion_location=key,
+            delete=False
+        )
+        result = temp.nav(key)
+        return result
 
     def explode(self) -> Navigator | list:
         ...
