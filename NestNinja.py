@@ -61,17 +61,12 @@ class Navigator:
 
     def demote(self, demoted_key: str, demotion_location: str, delete: bool = True): 
         def demote_inner(datum: dict): 
-            demotion_data = datum[demotion_location]
-            if not isinstance(demotion_data, (list, dict)): 
-                return []
-            if isinstance(demotion_data, dict): demotion_data = [demotion_data]
-            demotion_data = [x for x in demotion_data]
-
+            demotion_data = _put_dicts_in_lists(datum[demotion_location])
             res = []
             for demotion_sub in demotion_data:
-                demotion_sub[demoted_key] = datum[demoted_key]
-                res.append(demotion_sub)
-                if isinstance(demotion_sub, str): print(demotion_sub)
+                res_data = {k:v for k,v in demotion_sub.items()}
+                res_data[demoted_key] = datum[demoted_key]
+                res.append(res_data)
             datum[demotion_location] = res
             if delete: del(datum[demoted_key])
             return datum
@@ -168,6 +163,12 @@ def find_types(data: list[dict]):
             results[k].add(type_found)
     lenght = len(data)
     return AnalysesCollection(dict(results), lenght)
+
+def _put_dicts_in_lists(data):
+    if isinstance(data, dict): return [data]
+    elif isinstance(data, list): return data
+    else: raise TypeError(f"Data must be of type list or dict." 
+                          "{type(data).__name__} provided,")
 
 if __name__ == '__main__':
     data = get_test_data()
