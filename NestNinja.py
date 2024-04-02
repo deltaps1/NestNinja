@@ -111,6 +111,9 @@ class Navigator:
         )
 
     def detach(self, key: str, index_name: str = '') -> Navigator | list:
+        """
+        TODO: The new object should link to the previous so it's posible to construct relations
+        """
         temp: Navigator = self.demote(
             demoted_key=self.index_name, 
             demotion_location=key,
