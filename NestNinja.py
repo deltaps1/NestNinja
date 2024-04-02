@@ -11,13 +11,9 @@ class Navigator:
             data: list | dict,
             index: str | Literal[False] = False
         ):
-        self.data: list = self._base_clean_data(data)
+        self.data: list = _put_dicts_in_lists(data)
         self.index_name: str = "_idx" if not index else index
         if not index: self.create_index()
-
-    @staticmethod
-    def _base_clean_data(data: list | dict):
-        return [data] if isinstance(data, dict) else data
 
     def set_index(self, idx_name: str, keep_old: bool = False):
         if not keep_old:
