@@ -4,12 +4,6 @@ from typing import Callable, DefaultDict, Literal
 from test_utils import get_test_data
 from pprint import pprint
 
-def _error_handler(exception: Exception, func: Callable):
-    return {
-            "error_name": type(exception).__name__, 
-            "obj": exception,
-            "func_name": func.__name__
-    }
 
 class Navigator:
     def __init__(
@@ -74,7 +68,6 @@ class Navigator:
         # post_call = lambda result: [x for y in result for x in y]
         return self._looper(demote_inner) # post_call=post_call) 
 
-
     def rename(self, old_name: str, new_name: str) -> Navigator | list:
         def rename_inner(datum: dict):
             datum[new_name] = datum[old_name]
@@ -120,6 +113,7 @@ class Navigator:
     def analyse(self): # Temporary solution
         return find_types(self.data) 
 
+
 class AnalysesCollection:
     def __init__(self, data: dict[str, AnalysisHandler], lenght: int) -> None:
         self.data = data
@@ -154,6 +148,7 @@ class AnalysisHandler:
     def __repr__(self):
         return f"<AnalysisHandler types = {str(self.types)}, count = {self.count}>"
 
+
 def find_types(data: list[dict]):
     results = DefaultDict(AnalysisHandler)
     for dict_obj in data:
@@ -164,11 +159,21 @@ def find_types(data: list[dict]):
     lenght = len(data)
     return AnalysesCollection(dict(results), lenght)
 
+
 def _put_dicts_in_lists(data):
     if isinstance(data, dict): return [data]
     elif isinstance(data, list): return data
     else: raise TypeError(f"Data must be of type list or dict." 
                           "{type(data).__name__} provided,")
+
+
+def _error_handler(exception: Exception, func: Callable):
+    return {
+            "error_name": type(exception).__name__, 
+            "obj": exception,
+            "func_name": func.__name__
+    }
+
 
 if __name__ == '__main__':
     data = get_test_data()
