@@ -194,7 +194,6 @@ if __name__ == '__main__':
     data = get_test_data()
     nav_base: Navigator = Navigator(data)
     res = find_types(nav_base.data)
-    pprint(res)
     nav = (
         nav_base
         .nav("hits")
@@ -203,7 +202,9 @@ if __name__ == '__main__':
         .nav("Vrvirksomhed")
     )
     prom = nav.promote("virksomhedMetadata", "meta_")
+    prom = prom.set_index("cvrNummer")
     res = find_types(prom.data)
     pprint(res)
     demoted = nav.demote("cvrNummer", "hovedbranche", delete=False)
     hb_nav = demoted.nav("hovedbranche")
+
