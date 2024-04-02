@@ -43,11 +43,11 @@ class Navigator:
         if post_call: result = post_call(result)
         return Navigator(result, **navigator_kwargs)
 
-    def set_index(self, idx_name: str, keep_old: bool = False):
+    def set_index(self, index_name: str, keep_old: bool = False):
         if not keep_old:
-            res = self.delete(key=self.index_name, _index_name=idx_name)
-            res.index_name = idx_name
-        else: res = Navigator(self.data, index_name=idx_name)
+            res = self.delete(key=self.index_name, _index_name=index_name)
+            res.index_name = index_name
+        else: res = Navigator(self.data, index_name=index_name)
         return res
 
     def create_index(self):
