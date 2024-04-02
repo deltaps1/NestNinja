@@ -186,4 +186,4 @@ if __name__ == '__main__':
     res = find_types(prom.data)
     pprint(res)
     demoted = nav.demote("cvrNummer", "hovedbranche", delete=False)
-    # hb_nav = demoted.nav("hovedbranche")
+    hb_nav = demoted.nav("hovedbranche")
