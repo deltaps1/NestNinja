@@ -112,8 +112,8 @@ class Navigator:
         def delete_inner(datum: dict): 
             del(datum[key])
             return datum
-        if not _index_name: navigator_kwargs: dict = {}
-        else: navigator_kwargs: dict = {"index_name": _index_name}        
+        if _index_name: navigator_kwargs: dict = {"index_name": _index_name} 
+        else: navigator_kwargs: dict = {}
         return self._looper(
             delete_inner, 
             navigator_kwargs=navigator_kwargs
