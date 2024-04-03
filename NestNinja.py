@@ -10,7 +10,8 @@ class Navigator:
             self, 
             data: list | dict,
             index_name: str = '',
-            _debug_msg: str = ''
+            _debug_msg: str = '',
+            _prevent_index_creation: bool = False
         ):
         if _debug_msg:
             print(f"Navigator initialised. Message: {_debug_msg}")
@@ -20,6 +21,7 @@ class Navigator:
         self.index_name = index_name
         if index_name: 
             self.index_name = index_name
+        elif _prevent_index_creation: ... # Don't do anything
         else: 
             self.index_name = "_idx"
             self.create_index()
@@ -91,13 +93,20 @@ class Navigator:
             return datum 
         return self._looper(split_inner)
 
-    def nav(self, key: str) -> Navigator:
+    def nav(self, key: str, _prevent_index_creation: bool = False) -> Navigator:
         def nav_inner(datum: dict): 
             subdata = datum[key] 
             if not isinstance(subdata, list): subdata = [subdata]
             return subdata
+        if _prevent_index_creation: navigator_kwargs = {"_prevent_index_creation": True}
+        else: navigator_kwargs = {}
         post_call = lambda result: [x for y in result for x in y]
-        return self._looper(nav_inner, post_call=post_call, include_errors=False)
+        return self._looper(
+            nav_inner, 
+            post_call=post_call, 
+            include_errors=False,
+            navigator_kwargs=navigator_kwargs
+        )
 
     def delete(self, key: str, _index_name: str = '') -> Navigator:
         def delete_inner(datum: dict): 
@@ -114,8 +123,10 @@ class Navigator:
         """
         TODO: The new object should link to the previous so it's posible to construct relations
         """
+        if not index_name: index_name = self.index_name
+        if index_name in self._get_keys_for_sub(key): index_name += "_parent"
         temp: Navigator = self.demote(
-            demoted_key=self.index_name, 
+            demoted_key=index_name, 
             demotion_location=key,
             delete=False
         )
@@ -124,6 +135,12 @@ class Navigator:
 
     def explode(self) -> Navigator | list:
         ...
+
+    def _get_keys(self):
+        return set(self.analyse().data.keys())
+
+    def _get_keys_for_sub(self, key: str):
+        return self.nav(key, _prevent_index_creation=True)._get_keys()
 
     def __getitem__(self, idx):
         if isinstance(idx, int):
