@@ -133,8 +133,24 @@ class Navigator:
         result = temp.nav(key)
         return result
 
-    def explode(self) -> Navigator | list:
-        ...
+    def explode(self, key, prefix: str = '', delete: bool = True) -> Navigator | list:
+        backup_prefix = "_sub"
+        def inner_explode(datum: dict):
+            if not isinstance(datum[key], list):
+                return [datum]
+            res = []
+            for subdata in datum[key]:
+                res_data = {k:v for k, v in datum.items()}
+                for subkey, subvalue in subdata.items():
+                    used_prefix = prefix + subkey
+                    if used_prefix in res_data.keys():
+                        used_prefix = backup_prefix + used_prefix
+                    res_data[used_prefix] = subvalue
+                    if delete: del(res_data[key])
+                res.append(res_data)
+        post_call = lambda result: [x for y in result for x in y]
+        return self._looper(inner_explode, post_call=post_call)
+        
 
     def _get_keys(self):
         return set(self.analyse().data.keys())
