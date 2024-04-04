@@ -153,12 +153,18 @@ class Navigator:
                 res.append(res_data)
         post_call = lambda result: [x for y in result for x in y]
         return self._looper(inner_explode, post_call=post_call)
-        
 
     def _get_keys(self):
+        """
+        Gets a set with all found keys across the dictionaries in the data list.
+        The function ensures all keys are accounted for across posibly varying dictionary objects. 
+        """
         return set(self.analyse().data.keys())
 
     def _get_keys_for_sub(self, key: str):
+        """
+        Navigates to a subkey in the list of dictionaries and gets all underlying keys. 
+        """
         return self.nav(key, _prevent_index_creation=True)._get_keys()
 
     def __getitem__(self, idx):
