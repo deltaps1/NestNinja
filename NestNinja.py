@@ -134,6 +134,9 @@ class Navigator:
         return result
 
     def explode(self, key, prefix: str = '', delete: bool = True) -> Navigator | list:
+        """
+        TODO: Implement _get_keys/_get_keys_for_sub methods to streamline code. 
+        """
         backup_prefix = "_sub"
         def inner_explode(datum: dict):
             if not isinstance(datum[key], list):
