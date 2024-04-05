@@ -200,10 +200,11 @@ class AnalysesCollection:
 class AnalysisHandler:
     def __init__(self):
         self.count = 0
-        self.types = defaultdict(int)
+        self.types = {}
         self.types_all = set()
 
     def add(self, type_found: type):
+        self.types.setdefault(type_found, 0)
         self.types[type_found] += 1
         self.types_all.add(type_found)
 
