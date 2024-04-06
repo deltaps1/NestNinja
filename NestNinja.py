@@ -1,6 +1,6 @@
 from __future__ import annotations
 from collections import defaultdict
-from typing import Callable, DefaultDict, Literal
+from typing import Any, Callable, DefaultDict, Literal
 from test_utils import get_test_data
 from pprint import pprint
 
@@ -167,13 +167,14 @@ class Navigator:
         """
         return self.nav(key, _prevent_index_creation=True)._get_keys()
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx) -> list[dict[str, Any]] | dict[str, Any]:
         if isinstance(idx, int):
             return self.data[idx]
         elif isinstance(idx, str):
             return [x[idx] for x in self.data if idx in x.keys()]
         elif isinstance(idx, tuple):
             return [{k:v for k,v in x.items() if k in idx} for x in self.data]
+        else: raise TypeError("__getitem__ only accepts arguments of type(s): int, str, and tuple")
 
     def analyse(self): # Temporary solution
         return find_types(self.data) 
