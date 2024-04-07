@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-PATH = Path("test_data/")
+PATH = Path("tests/test_data/")
 
 def open_json_file(path):
     with open(path) as f: return json.load(f)
