@@ -12,6 +12,17 @@ BASE_OBJECT = get_nav_base()
 def get_copy_of_base_object():
     return BASE_OBJECT.copy()
 
+def test_copy1():
+    """Test that the copy functionality returns a new instance"""
+    base = get_copy_of_base_object()
+    new = base.copy()
+    assert id(base.data) != id(new.data)
+    
+def test_copy2():
+    """Test that the copy functionality returns a new instance"""
+    base = get_copy_of_base_object()
+    new = base.copy()
+    assert id(base.data[0]) != id(new.data[0])
 
 def test_getitem_method_int():
     """Gets one dictionary from the list of dictionaries and asserts it is a dictionary."""
