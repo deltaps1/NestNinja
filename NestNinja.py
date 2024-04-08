@@ -33,6 +33,9 @@ class Navigator:
             include_errors: bool = True,
             navigator_kwargs: dict = {}
         ) -> Navigator:
+        """
+        OBS: Does this need to be a function in the class?
+        """
         data: list = [x for x in self.data]
         result = []
         for datum in data:
@@ -217,6 +220,8 @@ class AnalysisHandler:
 
 
 def find_types(data: list[dict]):
+    """
+    """
     results = DefaultDict(AnalysisHandler)
     for dict_obj in data:
         for k, v in dict_obj.items():
