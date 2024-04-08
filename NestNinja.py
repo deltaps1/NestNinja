@@ -158,8 +158,10 @@ class Navigator:
         return self._looper(inner_explode, post_call=post_call)
 
     def copy(self) -> Navigator:
-        """
-        Returns a new instance of the object.
+        """Returns a new instance of the object using list and dictionary comprehension. 
+        This method is an attempt to implement a copy method that is safe from changes to the 
+        seperate objects (changes in the original object doesn't influence the copy) without having
+        to use expensive deepcopy methods. 
         """
         data = [{k:v for k, v in x.items()} for x in self.data]
         return Navigator(data)
