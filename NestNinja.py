@@ -177,7 +177,14 @@ class Navigator:
         """
         return self.nav(key, _prevent_index_creation=True)._get_keys()
 
-    def __getitem__(self, idx) -> list[dict[str, Any]] | dict[str, Any]:
+    def __getitem__(self, idx: int | str | tuple) -> list[dict[str, Any]] | dict[str, Any]:
+        """The __getitem__ method allow for three diferent methods to return data. 
+        If a string is used (e.g. self["somevalue"]) then a list of the key-value pair is 
+        returned from self.data as a dictionary. If an integer is used (e.g. self[0]) then the 
+        dictionary at X positon from the list of dictionaries at self.data is returned. You can 
+        also use a tuple (e.g. self["somevalue", "othervalue", "thirdvalue"]) to select multiple
+        key-values from self.data (like the string method which only returns a single instance). 
+        """
         if isinstance(idx, int):
             return self.data[idx]
         elif isinstance(idx, str):
