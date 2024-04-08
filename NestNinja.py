@@ -112,6 +112,7 @@ class Navigator:
         )
 
     def delete(self, key: str, _index_name: str = '') -> Navigator:
+        """Deletes a key-value pair from the list of dictionaries."""
         def delete_inner(datum: dict): 
             del(datum[key])
             return datum
@@ -234,7 +235,8 @@ class AnalysisHandler:
 
 
 def find_types(data: list[dict]):
-    """
+    """Generates a AnalysesCollaction-object after analysing a list of dictionaries. The
+    function returns a AnalysesCollection object which can visually represent the results.
     """
     results = DefaultDict(AnalysisHandler)
     for dict_obj in data:
