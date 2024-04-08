@@ -157,6 +157,13 @@ class Navigator:
         post_call = lambda result: [x for y in result for x in y]
         return self._looper(inner_explode, post_call=post_call)
 
+    def copy(self) -> Navigator:
+        """
+        Returns a new instance of the object.
+        """
+        data = [{k:v for k, v in x.items()} for x in self.data]
+        return Navigator(data)
+
     def _get_keys(self):
         """
         Gets a set with all found keys across the dictionaries in the data list.
