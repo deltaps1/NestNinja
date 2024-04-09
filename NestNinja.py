@@ -1,5 +1,4 @@
 from __future__ import annotations
-from collections import defaultdict
 from typing import Any, Callable, DefaultDict, Literal
 from test_utils import get_test_data
 from pprint import pprint
@@ -7,7 +6,7 @@ from pprint import pprint
 
 class Navigator:
     def __init__(
-            self, 
+            self,
             data: list | dict,
             index_name: str = '',
             _debug_msg: str = '',
