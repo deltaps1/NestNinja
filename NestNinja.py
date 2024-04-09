@@ -244,6 +244,41 @@ class AnalysisHandler:
         return f"<AnalysisHandler types = {str(self.types)}, count = {self.count}>"
 
 
+class ErrorLog:
+    """
+    Description of the desired functionality: 
+
+    This class should handle errors and create a sort of collection of all the different errors
+    that is encountered during data wrangling. 
+    The class should be able to write data to a database that is easy to merge with the seperate
+    tables created in the data wrangling process.
+    The ErrorLog uses the Errors object as a basis of logging errors.
+
+    Also, there should be some read functionality so it's possible to load a generated ErrorLog table
+    in a database and analyse the errors in a simple maner. 
+    """ 
+    def __init__(self) -> None: 
+        self.errors = []
+
+
+class Errors: 
+    def __init__(
+            self, 
+            exception: Exception, 
+            argument_provided_to_func: Any,
+            index_name: str,
+            object_ref: Navigator | None = None,
+            func: Callable | None = None
+        ): 
+        self.exception = exception
+        if isinstance(func, Callable):
+            self.func_name = func.__name__
+        else: self.func_name = "NoneType"
+        self.object_ref = object_ref
+        self.index_name = index_name
+        self.argument_provided_to_func = argument_provided_to_func
+        self.index_value = argument_provided_to_func[index_name]
+
 def find_types(data: list[dict]):
     """Generates a AnalysesCollaction-object after analysing a list of dictionaries. The
     function returns a AnalysesCollection object which can visually represent the results.
@@ -266,6 +301,7 @@ def _put_dicts_in_lists(data):
 
 
 def _error_handler(exception: Exception, func: Callable):
+    """Creates and returns the default error reporting format"""
     return {
             "error_name": type(exception).__name__, 
             "obj": exception,
