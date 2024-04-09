@@ -33,8 +33,13 @@ class Navigator:
             include_errors: bool = True,
             navigator_kwargs: dict = {}
         ) -> Navigator:
-        """
-        OBS: Does this need to be a function in the class?
+        """The looper function takes a callable that accepts a subvalue and loops through 
+        all objects in the main list defined in self.data. This is very similar to `map`. 
+        However `self._looper` also handles errors and instantiates a new `Navigator` object
+        with a list of the results from the provided callable.
+
+        TODO: Rewrite the error handler to make it more versatile.
+        TODO: Make a more easy to understand description (the concept is somewhat hard to explain).
         """
         data: list = [x for x in self.data]
         result = []
