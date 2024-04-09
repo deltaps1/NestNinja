@@ -47,7 +47,7 @@ However, when the nesting of the JSON structure becomes very deep and complex or
 **We use NestNinja to ease our struggles!**
 
 
-## Ussage
+## Usage
 NestNinja is a library for manipulating list of dictionaries easily. This is primarily done using the `Navigator` object. 
 
 ``` python3
