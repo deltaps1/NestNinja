@@ -60,6 +60,7 @@ class Navigator:
         return res
 
     def create_index(self):
+        """Creates an index by enumerating over the list of dictionaries"""
         for i, datum in enumerate(self.data):
             datum[self.index_name] = i
 
