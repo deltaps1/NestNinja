@@ -53,6 +53,7 @@ class Navigator:
         return Navigator(result, **navigator_kwargs)
 
     def set_index(self, index_name: str, keep_old: bool = False):
+        """Sets a new index key and deletes the old if `keep_old = False`"""
         if not keep_old:
             res = self.delete(key=self.index_name, _index_name=index_name)
             res.index_name = index_name
@@ -87,6 +88,7 @@ class Navigator:
         return self._looper(demote_inner) # post_call=post_call) 
 
     def rename(self, old_name: str, new_name: str) -> Navigator | list:
+        """Renames a key"""
         def rename_inner(datum: dict):
             datum[new_name] = datum[old_name]
             del(datum[old_name])
@@ -94,6 +96,9 @@ class Navigator:
         return self._looper(rename_inner)
 
     def split(self, key: str, func: Callable) -> Navigator | list:
+        """
+        TODO: This doesn't work and it's not good and intuitive. Maybe more `pd.DataFrame.assign`-like?
+        """
         def split_inner(datum: dict):
             eval_res = func(datum[key]) # Check if the function is True
             new_key = key + ("_true" if eval_res else "_false")
@@ -150,6 +155,7 @@ class Navigator:
     def explode(self, key, prefix: str = '', delete: bool = True) -> Navigator | list:
         """
         TODO: Implement _get_keys/_get_keys_for_sub methods to streamline code. 
+        TODO: Write a real test for this!
         """
         backup_prefix = "_sub"
         def inner_explode(datum: dict):
@@ -184,8 +190,7 @@ class Navigator:
         return set(self.analyse().data.keys())
 
     def _get_keys_for_sub(self, key: str):
-        """Navigates to a subkey in the list of dictionaries and gets all underlying keys. 
-        """
+        """Navigates to a subkey in the list of dictionaries and gets all underlying keys."""
         return self.nav(key, _prevent_index_creation=True)._get_keys()
 
     def __getitem__(self, idx: int | str | tuple) -> list[dict[str, Any]] | dict[str, Any]:
@@ -204,7 +209,7 @@ class Navigator:
             return [{k:v for k,v in x.items() if k in idx} for x in self.data]
         else: raise TypeError("__getitem__ only accepts arguments of type(s): int, str, and tuple")
 
-    def analyse(self): # Temporary solution
+    def analyse(self): # Temporary solution?
         return find_types(self.data) 
 
 
