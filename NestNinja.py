@@ -78,6 +78,7 @@ class Navigator:
         return self._looper(promote_inner) 
 
     def demote(self, demoted_key: str, demotion_location: str, delete: bool = True) -> Navigator: 
+        """Demotion is when a key-value pair is put into a subdict."""
         def demote_inner(datum: dict): 
             demotion_data = _put_dicts_in_lists(datum[demotion_location])
             res = []
@@ -303,7 +304,8 @@ def find_types(data: list[dict]):
     return AnalysesCollection(dict(results), lenght)
 
 
-def _put_dicts_in_lists(data):
+def _put_dicts_in_lists(data) -> list:
+    """This is a helper function that puts a single dict input in a list"""
     if isinstance(data, dict): return [data]
     elif isinstance(data, list): return data
     else: raise TypeError(f"Data must be of type list or dict." 
