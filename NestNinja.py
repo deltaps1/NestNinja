@@ -65,9 +65,14 @@ class Navigator:
         for i, datum in enumerate(self.data):
             datum[self.index_name] = i
 
-    def promote(self, key: str | list, prefix: str = "") -> Navigator:
+    def promote(self, key: str, prefix: str = "", delete: bool = True) -> Navigator:
+        """Promotion is when values from a subdict is lifted up one level.
+        A prefix can be used to provide context to the key which stored the key previously.
+        TODO: Test deletion keyword
+        """
         def promote_inner(datum: dict):
-            res = {k:v for k,v in datum.items() if k != key}
+            res = {k:v for k, v in datum.items()}
+            if delete: del(res[key])
             for k, v in datum[key].items(): res[prefix + k] = v
             return res
         return self._looper(promote_inner) 
