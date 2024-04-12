@@ -159,7 +159,8 @@ class Navigator:
         return result
 
     def explode(self, key, prefix: str = '', delete: bool = True) -> Navigator | list:
-        """
+        """Takes all key-value pairs in the top level and demotes them to all subordinate
+        elements in a list of dictionaries found under the provided key.
         TODO: Implement _get_keys/_get_keys_for_sub methods to streamline code. 
         TODO: Write a real test for this!
         """
