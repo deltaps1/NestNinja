@@ -3,6 +3,7 @@ from test_utils import get_test_data
 
 
 def get_nav_base():
+    """Setup the basis `Navigation` object"""
     data = get_test_data()
     nav_base = Navigator(data)
     return nav_base
