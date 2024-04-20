@@ -55,7 +55,7 @@ def test_promote():
     """Checks that promotion functions. Promotes a key from the test data
     and asserts that a given key is in newly created `Navigator`.
     """
-    base = get_nav_base()
+    base = navigate_to_actual_data()
     promoted = base.promote('virksomhedMetadata', "meta_")
     promoted_anaysed = promoted.analyse()
     assert "meta_nyesteNavn" in promoted_anaysed.data
