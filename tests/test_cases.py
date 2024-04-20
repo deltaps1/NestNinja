@@ -11,6 +11,7 @@ def get_nav_base():
 BASE_OBJECT = get_nav_base()
 
 def get_copy_of_base_object():
+    """Creates a copy of the base object"""
     return BASE_OBJECT.copy()
 
 def test_copy1():
