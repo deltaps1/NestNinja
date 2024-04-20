@@ -14,6 +14,18 @@ def get_copy_of_base_object():
     """Creates a copy of the base object"""
     return BASE_OBJECT.copy()
 
+def navigate_to_actual_data():
+    """Navigates through the data structure to the interesting part of the data"""
+    nav_base = get_copy_of_base_object()
+    nav = (
+        nav_base
+        .nav("hits")
+        .nav("hits")
+        .nav("_source")
+        .nav("Vrvirksomhed")
+    )
+    return nav
+
 def test_copy1():
     """Test that the copy functionality returns a new instance"""
     base = get_copy_of_base_object()
