@@ -48,16 +48,8 @@ def test_navigation():
     """The test case navigatese through the JSON-object. 
     A check is performed to see if an expected value is in the final object.
     """
-    nav_base = get_copy_of_base_object()
-    nav = (
-        nav_base
-        .nav("hits")
-        .nav("hits")
-        .nav("_source")
-        .nav("Vrvirksomhed")
-    )
+    nav = navigate_to_actual_data()
     assert len(nav["cvrNummer"]) > 0
-    return nav
 
 def test_promote():
     """Checks that promotion functions. Promotes a key from the test data
