@@ -2,13 +2,9 @@ from NestNinja import Navigator
 from test_utils import get_test_data 
 
 
-def get_nav_base():
-    """Setup the basis `Navigation` object"""
-    data = get_test_data()
-    nav_base = Navigator(data)
-    return nav_base
+TEST_DATA = get_test_data()
+BASE_OBJECT = Navigator(TEST_DATA)
 
-BASE_OBJECT = get_nav_base()
 
 def get_copy_of_base_object():
     """Creates a copy of the base object"""
