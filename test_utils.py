@@ -9,8 +9,9 @@ def open_json_file(path):
 
 
 def get_test_data():
-   files = PATH.glob("*.json") 
-   return [open_json_file(file) for file in files]
+    """Gets the data used in testing"""
+    files = PATH.glob("*.json") 
+    return [open_json_file(file) for file in files]
 
 
 if __name__ == '__main__':
