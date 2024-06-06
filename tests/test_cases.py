@@ -1,3 +1,22 @@
+"""
+Test cases implemented: 
+- Simple copy on object level (`test_copy1`)
+- Simple copy on sublevel (`test_copy1`)
+- Get item method for dictionaries in lists (`test_getitem_method_int`)
+- Navigation to a subkey (`test_navigation`) 
+- Promotion of a subkey (`test_promote`)
+
+Test cases not implemented:
+- Splits (not implemented yet)
+- Demotions
+- Renaming 
+- Index setting
+- Index creation
+- Deletion 
+- Detachments 
+- Explosions
+"""
+
 from NestNinja import Navigator
 from test_utils import get_test_data 
 
