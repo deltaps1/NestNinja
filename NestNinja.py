@@ -102,7 +102,8 @@ class Navigator:
             return datum
 
         # post_call = lambda result: [x for y in result for x in y]
-        return self._looper(demote_inner) # post_call=post_call) 
+        temp = self.copy()
+        return temp._looper(demote_inner) # post_call=post_call) 
 
     def rename(self, old_name: str, new_name: str) -> Navigator | list:
         """Renames a key"""
