@@ -80,7 +80,13 @@ class Navigator:
             if delete: del(res[key])
             for k, v in datum[key].items(): res[prefix + k] = v
             return res
-        return self._looper(promote_inner) 
+
+        navigator_kwargs = {}
+        navigator_kwargs["index_name"] = self.index_name
+        return self._looper(
+            promote_inner, 
+            navigator_kwargs=navigator_kwargs
+        ) 
 
     def demote(self, demoted_key: str, demotion_location: str, delete: bool = True) -> Navigator: 
         """Demotion is when a key-value pair is put into a subdict."""
