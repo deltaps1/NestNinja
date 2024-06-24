@@ -237,6 +237,10 @@ class Navigator:
         return find_types(self.data) 
 
 
+    def __repr__(self):
+        pprint(self.analyse())
+        return ""
+
 class AnalysesCollection:
     def __init__(self, data: dict[str, AnalysisHandler], lenght: int) -> None:
         self.data = data
