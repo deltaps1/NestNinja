@@ -183,6 +183,9 @@ class Navigator:
         """
         backup_prefix = "_sub"
         def inner_explode(datum: dict):
+            # If there s multiple types under the subkey
+            # it might be best just to return this single element
+            # in a list so it doesn't get lost
             if not isinstance(datum[key], list):
                 return [datum]
             res = []
