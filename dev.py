@@ -12,3 +12,15 @@ nav = (
     .nav("_source")
     .nav("Vrvirksomhed", index_name="cvrNummer")
 )
+
+delt = (
+    nav
+    .detach("deltagerRelation")
+    .promote("deltager")
+)
+
+hb = (
+    nav
+    .detach("hovedbranche")
+)
+
