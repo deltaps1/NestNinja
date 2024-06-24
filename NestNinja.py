@@ -111,7 +111,8 @@ class Navigator:
             datum[new_name] = datum[old_name]
             del(datum[old_name])
             return datum
-        return self._looper(rename_inner)
+        temp = self.copy()
+        return temp._looper(rename_inner)
 
     def split(self, key: str, func: Callable) -> Navigator | list:
         """
