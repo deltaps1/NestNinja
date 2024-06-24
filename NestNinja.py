@@ -51,7 +51,8 @@ class Navigator:
                     datum.setdefault("_error", [])
                     datum["_error"].append(_error_handler(error, func))
                     result.append(datum)
-        if post_call: result = post_call(result)
+        if post_call: 
+            result = post_call(result)
         return Navigator(result, **navigator_kwargs)
 
     def set_index(self, index_name: str, keep_old: bool = False):
