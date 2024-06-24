@@ -118,7 +118,8 @@ class Navigator:
             return datum 
         return self._looper(split_inner)
 
-    def nav(self, key: str, _prevent_index_creation: bool = False) -> Navigator:
+    def nav(self, key: str, index_name: str = '', 
+            _prevent_index_creation: bool = False) -> Navigator:
         """Navigates to a a subkey and creates a new `Navigator` instance.
         It's only posible to navigate to subkeys were the related subvalue is a list or a dict. 
         """
@@ -126,10 +127,13 @@ class Navigator:
             subdata = datum[key] 
             if isinstance(subdata, dict): subdata = [subdata]
             elif isinstance(subdata, list): ... # Do nothing
-            else: raise TypeError("Can only navigate to key/value pairs if the value is a list or dict")
+            else: raise TypeError(
+                "Can only navigate to key/value pairs if the value is a list or dict")
             return subdata
-        if _prevent_index_creation: navigator_kwargs = {"_prevent_index_creation": True}
-        else: navigator_kwargs = {}
+
+        navigator_kwargs = {}
+        navigator_kwargs["_prevent_index_creation"] = _prevent_index_creation
+        navigator_kwargs["index_name"] = index_name
         post_call = lambda result: [x for y in result for x in y]
         return self._looper(
             nav_inner, 
