@@ -24,3 +24,5 @@ hb = (
     .detach("hovedbranche")
 )
 
+delt_expl  = delt.explode("organisationer")
+delt_expl2 = delt_expl.explode("medlemsData")
