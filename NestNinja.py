@@ -161,7 +161,7 @@ class Navigator:
             navigator_kwargs=navigator_kwargs
         )
 
-    def detach(self, key: str, index_name: str = '') -> Navigator | list:
+    def detach(self, key: str, index_name: str = '') -> Navigator:
         """
         TODO: The new object should link to the previous so it's posible to construct relations
         """
