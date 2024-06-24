@@ -195,6 +195,7 @@ class Navigator:
                     res_data[used_prefix] = subvalue
                     if delete: del(res_data[key])
                 res.append(res_data)
+        
         post_call = lambda result: [x for y in result for x in y]
         return self._looper(inner_explode, post_call=post_call)
 
