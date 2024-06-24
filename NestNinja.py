@@ -21,12 +21,10 @@ class Navigator:
         # If a index name is provided then that should be the default.
         if index_name: 
             self.index_name = index_name
-            self.artifical_index = False
         # TODO: Why should it be allowed to not do anything?
         elif _prevent_index_creation: ... # Don't do anything
         else: 
             self.index_name = "_idx"
-            self.artifical_index = True
             self.create_index()
 
     def _looper(
