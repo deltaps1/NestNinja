@@ -55,7 +55,7 @@ class Navigator:
             result = post_call(result)
         return Navigator(result, **navigator_kwargs)
 
-    def set_index(self, index_name: str, keep_old: bool = False):
+    def set_index(self, index_name: str, keep_old: bool = True):
         """Sets a new index key and deletes the old if `keep_old = False`"""
         if not keep_old:
             res = self.delete(key=self.index_name, _index_name=index_name)
