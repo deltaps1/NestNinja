@@ -172,7 +172,7 @@ class Navigator:
             demotion_location=key,
             delete=False
         )
-        result = temp.nav(key)
+        result = temp.nav(key, index_name=index_name)
         return result
 
     def explode(self, key, prefix: str = '', delete: bool = True) -> Navigator | list:
