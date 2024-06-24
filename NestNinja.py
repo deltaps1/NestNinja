@@ -18,8 +18,10 @@ class Navigator:
 
         self.data: list = _put_dicts_in_lists(data)
         self.index_name = index_name
+        # If a index name is provided then that should be the default.
         if index_name: 
             self.index_name = index_name
+        # TODO: Why should it be allowed to not do anything?
         elif _prevent_index_creation: ... # Don't do anything
         else: 
             self.index_name = "_idx"
@@ -61,7 +63,9 @@ class Navigator:
         return res
 
     def create_index(self):
-        """Creates an index by enumerating over the list of dictionaries"""
+        """Creates an index by enumerating over the list of dictionaries
+        TODO: Is this really just a number? That seems weird...
+        """
         for i, datum in enumerate(self.data):
             datum[self.index_name] = i
 
