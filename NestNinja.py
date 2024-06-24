@@ -175,7 +175,7 @@ class Navigator:
         result = temp.nav(key, index_name=index_name)
         return result
 
-    def explode(self, key, prefix: str = '', delete: bool = True) -> Navigator | list:
+    def explode(self, key, prefix: str = '', delete: bool = True) -> Navigator:
         """Takes all key-value pairs in the top level and demotes them to all subordinate
         elements in a list of dictionaries found under the provided key.
         TODO: Implement _get_keys/_get_keys_for_sub methods to streamline code. 
