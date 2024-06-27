@@ -22,8 +22,6 @@ Somtimes there are many different datatypes found under the subvalues in a LoD.
 Here you want to split the data to  handle the types appropiately. 
 
 
-## Thoughts about explosions
+## Explosions
+...
 
-list-dict: \[dict]
-list-int: \[i]
-list-list: \[x for y in l for x in y]
