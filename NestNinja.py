@@ -2,6 +2,8 @@ from __future__ import annotations
 from typing import Any, Callable, DefaultDict, Literal
 from test_utils import get_test_data
 from pprint import pprint
+from explosion import handle_list
+import copy
 
 
 class Navigator:
@@ -178,56 +180,11 @@ class Navigator:
     def explode(self, key, prefix: str = '', delete: bool = True) -> Navigator:
         """Takes all key-value pairs in the top level and demotes them to all subordinate
         elements in a list of dictionaries found under the provided key.
-        TODO: Implement _get_keys/_get_keys_for_sub methods to streamline code. 
-        TODO: Write a real test for this!
-        TODO: If the provided subkey is not real then the function fails with a wierd error.
         """
-        backup_prefix = "_sub"
-        def inner_explode(datum: dict):
-            # If there s multiple types under the subkey
-            # it might be best just to return this single element
-            # in a list so it doesn't get lost
-            if not isinstance(datum[key], list):
-                return [datum]
-            res = []
+        copied_data = copy.deepcopy(self.data)
+        new_data = handle_list(copied_data, key)
+        return Navigator(new_data, index_name=self.index_name)
 
-            # Subdata is a list
-            for subdata in datum[key]:
-                # Copying subdata using a list comprehension
-                subdata = [x for x in subdata]
-                # We are copying the whole dictionary that contains 
-                # all the values we want to demote to the lists under
-                # given subkey
-                res_data = {k:v for k, v in datum.items()}
-
-                # In the folowing we are expectin a dictionary in the subkeys
-                # TODO: Is this the right method? What if this isn't true?
-                for subkey, subvalue in subdata.items():
-                    used_prefix = prefix + subkey
-                    if used_prefix in res_data.keys():
-                        used_prefix = backup_prefix + used_prefix
-                    res_data[used_prefix] = subvalue
-                    if delete: del(res_data[key])
-                res.append(res_data)
-            return res
-        
-        def post_call(result): 
-            return_list = []
-            for x in result: 
-                if x != None:
-                    return_list.append(x)
-            return_list = [x for y in return_list for x in y]
-            return return_list
-
-        navigator_kwargs = {}
-        navigator_kwargs["index_name"] = self.index_name
-
-        temp = self.copy()
-        return temp._looper(
-            inner_explode, 
-            post_call=post_call,
-            navigator_kwargs=navigator_kwargs
-        )
 
     def copy(self) -> Navigator:
         """Returns a new instance of the object using list and dictionary comprehension. 
