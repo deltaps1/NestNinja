@@ -13,16 +13,20 @@ nav = (
     .nav("Vrvirksomhed", index_name="cvrNummer")
 )
 
-delt = (
-    nav
-    .detach("deltagerRelation")
-    .promote("deltager")
-)
-
 hb = (
     nav
     .detach("hovedbranche")
 )
 
-delt_expl  = delt.explode("organisationer")
-delt_expl2 = delt_expl.explode("medlemsData")
+delt_done = (
+    nav
+    .detach("deltagerRelation")
+    .promote("deltager")
+    .explode("organisationer")
+    .explode("medlemsData")
+    .explode("attributter")
+    .explode("vaerdier")
+    .promote("periode")
+)
+
+print(delt_done)
