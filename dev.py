@@ -30,4 +30,29 @@ delt = (
     .promote("periode")
 )
 
-print(delt_done)
+besk = (
+    nav
+    .detach("erstMaanedsbeskaeftigelse")
+)
+
+meta = (
+    nav
+    .detach("virksomhedMetadata", index_name="cvrNummer")
+)
+
+print("nav \n", nav.parent_obj )
+print("hb  \n", hb.parent_obj  )
+print("delt\n", delt.parent_obj)
+print("besk\n", besk.parent_obj)
+print("meta\n", meta.parent_obj)
+
+ids_test = [
+    id(nav            ),
+    id(hb.parent_obj  ),
+    id(delt.parent_obj),
+    id(besk.parent_obj),
+    id(meta.parent_obj),
+]
+assert len(set(ids_test)) == 1
+
+
