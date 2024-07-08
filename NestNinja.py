@@ -29,7 +29,6 @@ class Navigator:
         else: 
             self.index_name = "_idx"
             self.create_index()
-
         self.parent_obj = _parent_obj
         
     def _looper(
@@ -136,7 +135,8 @@ class Navigator:
 
     def split(self, key: str, func: Callable) -> Navigator | list:
         """
-        TODO: This doesn't work and it's not good and intuitive. Maybe more `pd.DataFrame.assign`-like?
+        TODO: This doesn't work and it's not good and intuitive. 
+        Maybe more `pd.DataFrame.assign`-like?
         """
         def split_inner(datum: dict):
             eval_res = func(datum[key]) # Check if the function is True
@@ -182,8 +182,9 @@ class Navigator:
         )
 
     def detach(self, key: str, index_name: str = '') -> Navigator:
-        """
-        TODO: The new object should link to the previous so it's posible to construct relations
+        """Detaches a key-value pair from the `Navigator` object and creates a new object 
+        TODO: The new object should somehow link to the parrent so relations can be made 
+        by the DDL-generator
         """
         if not index_name: index_name = self.index_name
         if index_name in self._get_keys_for_sub(key): index_name += "_parent"
