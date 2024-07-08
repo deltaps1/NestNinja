@@ -12,7 +12,8 @@ class Navigator:
             data: list | dict,
             index_name: str = '',
             _debug_msg: str = '',
-            _prevent_index_creation: bool = False
+            _prevent_index_creation: bool = False,
+            _parent_obj: Navigator | bool = False
         ):
         if _debug_msg:
             print(f"Navigator initialised. Message: {_debug_msg}")
@@ -29,6 +30,8 @@ class Navigator:
             self.index_name = "_idx"
             self.create_index()
 
+        self.parent_obj = _parent_obj
+        
     def _looper(
             self, 
             func: Callable, 
@@ -55,6 +58,10 @@ class Navigator:
                     result.append(datum)
         if post_call: 
             result = post_call(result)
+        navigator_kwargs = {
+            **{"_parent_obj": self.parent_obj},
+            **navigator_kwargs
+        }
         return Navigator(result, **navigator_kwargs)
 
     def set_index(self, index_name: str, keep_old: bool = True):
@@ -90,7 +97,13 @@ class Navigator:
             navigator_kwargs=navigator_kwargs
         ) 
 
-    def demote(self, demoted_key: str, demotion_location: str, delete: bool = True) -> Navigator: 
+    def demote(
+        self, 
+        demoted_key: str, 
+        demotion_location: str, 
+        delete: bool = True,
+        _parent_obj = False
+    ) -> Navigator: 
         """Demotion is when a key-value pair is put into a subdict."""
         def demote_inner(datum: dict): 
             demotion_data = _put_dicts_in_lists(datum[demotion_location])
@@ -105,7 +118,10 @@ class Navigator:
 
         # post_call = lambda result: [x for y in result for x in y]
         temp = self.copy()
-        return temp._looper(demote_inner) # post_call=post_call) 
+        if _parent_obj:
+            navigator_kwargs = {"_parent_obj": self}
+        else: navigator_kwargs = {}
+        return temp._looper(demote_inner, navigator_kwargs=navigator_kwargs) # post_call=post_call) 
 
     def rename(self, old_name: str, new_name: str) -> Navigator | list:
         """Renames a key"""
@@ -172,18 +188,24 @@ class Navigator:
         temp: Navigator = self.demote(
             demoted_key=index_name, 
             demotion_location=key,
-            delete=False
+            delete=False,
         )
         result = temp.nav(key, index_name=index_name)
+        result.parent_obj = self
         return result
 
     def explode(self, key) -> Navigator:
         """Takes all key-value pairs in the top level and demotes them to all subordinate
         elements in a list of dictionaries found under the provided key.
         """
-        copied_data = copy.deepcopy(self.data)
+        # copied_data = copy.deepcopy(self.data)
+        copied_data = self.data
         new_data = handle_list(copied_data, key)
-        return Navigator(new_data, index_name=self.index_name)
+        return Navigator(
+            new_data, 
+            index_name=self.index_name,
+            _parent_obj=self.parent_obj
+        )
 
 
     def copy(self) -> Navigator:
@@ -193,7 +215,7 @@ class Navigator:
         to use expensive deepcopy methods. 
         """
         data = [{k:v for k, v in x.items()} for x in self.data]
-        return Navigator(data)
+        return Navigator(data, index_name=self.index_name, _parent_obj=self.parent_obj)
 
     def _get_keys(self):
         """Gets a set with all found keys across the dictionaries in the data list.
