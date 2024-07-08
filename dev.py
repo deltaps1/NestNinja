@@ -16,9 +16,10 @@ nav = (
 hb = (
     nav
     .detach("hovedbranche")
+    .promote("periode")
 )
 
-delt_done = (
+delt = (
     nav
     .detach("deltagerRelation")
     .promote("deltager")
