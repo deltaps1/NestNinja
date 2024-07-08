@@ -106,6 +106,8 @@ class Navigator:
     ) -> Navigator: 
         """Demotion is when a key-value pair is put into a subdict."""
         def demote_inner(datum: dict): 
+            # datum = {k: v for k, v in datum.items()}
+            # Why do I do this?
             demotion_data = _put_dicts_in_lists(datum[demotion_location])
             res = []
             for demotion_sub in demotion_data:
