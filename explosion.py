@@ -51,7 +51,10 @@ def handle_list(explosion_list: list, key: str|Literal[False] = False) -> list[d
 
     # We now loop through the `explosion_list`
     for list_element in explosion_list:
-        # First we check whether or not the provided key is in the individual 
+        # We copy the list_element (which is a dictionary) using a dict comprehension
+        list_element = {k: v for k, v in list_element.items()}
+
+        # We check whether or not the provided key is in the individual 
         # `list_element`. If not we just append a dictionary only containing 
         # the parent element.
         sub = list_element.pop(key, None)
