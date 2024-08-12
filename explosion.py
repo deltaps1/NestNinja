@@ -1,4 +1,4 @@
-from typing import Any, Literal
+from typing import Any, Literal, Union
 from pprint import pprint
 
 test_dict =[
@@ -14,7 +14,7 @@ test_dict =[
     {'ids': 7}                                      # no values under `sub` key
 ]
 
-def _add_parents_to_children(parent: dict, child: list|None = None):
+def _add_parents_to_children(parent: dict, child: Union[list,None] = None):
     res = []
 
     # Early exit if `None`
@@ -45,7 +45,7 @@ def _handle_list_recursive(explosion_list: list):
     res = [x for y in res for x in y]
     return res
 
-def handle_list(explosion_list: list, key: str|Literal[False] = False) -> list[dict]:
+def handle_list(explosion_list: list, key: Union[str, Literal[False]] = False) -> list[dict]:
     # We define a return object which will contain the results
     res = []
 
