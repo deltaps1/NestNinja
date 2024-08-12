@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import Any, Callable, DefaultDict, Literal
-from test_utils import get_test_data
+from .test_utils import get_test_data
 from pprint import pprint
-from explosion import handle_list
+from .explosion import handle_list
 import copy
 
 
@@ -172,6 +172,8 @@ class Navigator:
     def delete(self, key: str, _index_name: str = '') -> Navigator:
         """Deletes a key-value pair from the list of dictionaries."""
         def delete_inner(datum: dict): 
+            if key not in datum:
+                return datum
             del(datum[key])
             return datum
         if _index_name: navigator_kwargs: dict = {"index_name": _index_name} 
