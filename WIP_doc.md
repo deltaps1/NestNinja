@@ -3,7 +3,6 @@
 This document describes the features that needs to be implemented in NestNinja.
 It also defines the vocabulary and concepts used to understand the module. 
 
-
 # Why NestNinja?
 Have you ever experienced the tediousness of dealing with cleaning and flattening deaply nested JSON structures?
 NestNinja is a library made to ease the proces of cleaning and transforming deeply nested JSON structures to flat formats.
@@ -36,7 +35,6 @@ Here you want to split the data to  handle the types appropiately.
 
 
 ## Explosions (Implemented)
-...
 Explosions mostly work like the Pandas function of the same name.
 When you have a field containing lists then you can use the explode function. 
 
@@ -48,3 +46,6 @@ Detachments work by creating a link to the parent object so it's possible to cre
 ## Tree view
 https://www.willmcgugan.com/blog/tech/post/rich-tree/
 
+# ToDo
+- [ ] Fix the error handler
+- [ ] Conceptualise the splitting features
