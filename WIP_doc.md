@@ -5,8 +5,11 @@ It also defines the vocabulary and concepts used to understand the module.
 
 
 # Why NestNinja?
-...
-
+Have you ever experienced the tediousness of dealing with cleaning and flattening deaply nested JSON structures?
+NestNinja is a library made to ease the proces of cleaning and transforming deeply nested JSON structures to flat formats.
+The philosophy of NestNinja is control and intention. 
+However, NestNinja also follows an analysis based approach were you analyse your structure before setting up permanent cleaning pipelines. 
+Also, NestNinja wants to be a framework were you reliable can create pipelines for dealing with JSON structures in a regular and automated fashion. 
 
 # Concepts
 This section describes the concepts of the NestNinja module. 
@@ -34,6 +37,8 @@ Here you want to split the data to  handle the types appropiately.
 
 ## Explosions (Implemented)
 ...
+Explosions mostly work like the Pandas function of the same name.
+When you have a field containing lists then you can use the explode function. 
 
 ## Detachments
 Detachments work by creating a link to the parent object so it's possible to create a relational database.
