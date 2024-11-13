@@ -49,3 +49,11 @@ https://www.willmcgugan.com/blog/tech/post/rich-tree/
 # ToDo
 - [ ] Fix the error handler
 - [ ] Conceptualise the splitting features
+- [ ] Go through all the functions and make a plan for everything.
+- [ ] Go through functions and test cases to see if anything is missing.
+- [ ] Create a functionality list to  make sure that everythin is accounted for
+- [ ] Create a SQL exporter function that can compare dtypes and write to an DB
+    - Create a pd.io.sql.get_schema() like functionality
+
+
+
