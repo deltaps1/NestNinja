@@ -247,6 +247,10 @@ class Navigator:
     def analyse(self): # Temporary solution?
         return find_types(self.data) 
 
+    def to_dataframe(self):
+        """Transforms the data to a `pandas` DataFrame"""
+        return pd.DataFrame(self.data)
+
 
     def __repr__(self):
         pprint(self.analyse())
