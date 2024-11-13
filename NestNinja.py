@@ -3,6 +3,7 @@ from typing import Any, Callable, DefaultDict, Literal
 from test_utils import get_test_data
 from pprint import pprint
 from explosion import handle_list
+import pandas as pd
 
 
 class Navigator:
