@@ -258,6 +258,10 @@ class Navigator:
         with open(file_placement, "a") as f:
             f.write(schema)
 
+    def len(self):
+        """Returns the lenght of the data"""
+        return len(self.data)
+
 
     def __repr__(self):
         pprint(self.analyse())
