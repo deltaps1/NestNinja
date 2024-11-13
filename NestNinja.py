@@ -243,7 +243,6 @@ class Navigator:
             return [x[idx] for x in self.data if idx in x.keys()]
         elif isinstance(idx, tuple):
             return [{k:v for k,v in x.items() if k in idx} for x in self.data]
-        else: raise TypeError("__getitem__ only accepts arguments of type(s): int, str, and tuple")
 
     def analyse(self): # Temporary solution?
         return find_types(self.data) 
