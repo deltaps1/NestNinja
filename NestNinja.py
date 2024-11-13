@@ -251,6 +251,13 @@ class Navigator:
         """Transforms the data to a `pandas` DataFrame"""
         return pd.DataFrame(self.data)
 
+    def create_schema(self, table_name, file_placement=""):
+        schema = pd.io.sql.get_schema(self.to_dataframe(), name=table_name) + "\n" # Why does nvim say `sql` doesn't exist?
+        if not file_placement:
+            file_placement = table_name + ".sql"
+        with open(file_placement, "a") as f:
+            f.write(schema)
+
 
     def __repr__(self):
         pprint(self.analyse())
