@@ -263,6 +263,15 @@ class Navigator:
         """Returns the lenght of the data"""
         return len(self.data)
 
+    @staticmethod
+    def _test_date(datum, dayfirst=True):
+        """Experimental feature for identifying dates"""
+        from dateutil.parser import parse, ParserError # should be moved to top later
+        try: 
+            result = parse(datum, dayfirst=dayfirst)
+            return True, result
+        except ParserError:
+            return False, None
 
     def __repr__(self):
         pprint(self.analyse())
