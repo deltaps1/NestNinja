@@ -24,7 +24,7 @@ from test_utils import get_test_data
 TEST_DATA = get_test_data()
 BASE_OBJECT = Navigator(TEST_DATA)
 
-
+# SETUP_TOOLS
 def get_copy_of_base_object():
     """Creates a copy of the base object"""
     return BASE_OBJECT.copy()
@@ -42,7 +42,7 @@ def navigate_to_actual_data():
     )
     return nav
 
-
+# TESTS
 def test_copy1():
     """Test that the copy functionality returns a new instance"""
     base = get_copy_of_base_object()
